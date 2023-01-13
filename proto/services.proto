@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package grpc.services.v1;
+
+message CollectStaticReq {
+  string ip = 1;
+}
+
+message SimpleCollectionRes {
+  string ip = 1;
+  string location = 2;
+}
+
+message StatisticDto {
+  string id = 1;
+  string ip = 2;
+}
+
+message StatisticListRes {
+  repeated StatisticDto data = 1;
+}
+
+service StatisticProtoController {
+  rpc CollectStatistic (CollectStaticReq) returns (SimpleCollectionRes) {}
+}
