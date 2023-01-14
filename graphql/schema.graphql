@@ -22,4 +22,19 @@ directive @inaccessible on FIELD_DEFINITION | OBJECT | INTERFACE | UNION | ARGUM
 
 directive @override(from: String!) on FIELD_DEFINITION
 
+type SuccessResDto {
+  message: String!
+  status: Boolean!
+}
+
+type Mutation {
+  """Collect user ip data"""
+  collectStatistic(input: CollectStatisticInput!): SuccessResDto!
+}
+
+input CollectStatisticInput {
+  """Something"""
+  word: String!
+}
+
 scalar link__Import

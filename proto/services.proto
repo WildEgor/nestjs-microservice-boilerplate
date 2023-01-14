@@ -8,7 +8,6 @@ message CollectStaticReq {
 
 message SimpleCollectionRes {
   string ip = 1;
-  string location = 2;
 }
 
 message StatisticDto {
@@ -20,6 +19,6 @@ message StatisticListRes {
   repeated StatisticDto data = 1;
 }
 
-service StatisticProtoController {
-  rpc CollectStatistic (CollectStaticReq) returns (SimpleCollectionRes) {}
+service StatisticRpcController {
+  rpc collectStatistic (CollectStaticReq) returns (SimpleCollectionRes) {}
 }

@@ -1,11 +1,6 @@
-import { UseInterceptors } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
-import { LoggerInterceptor } from '@wildegor/common.nodepack.boilerplate/modules/src/adapters';
-import {
-  IServiceVoidData,
-  ResultFactory,
-} from '@wildegor/common.nodepack.boilerplate/modules/src/core/microservices';
+import { IServiceVoidData, ResultFactory } from '@wildegor/common.nodepack.boilerplate/modules/src/core/microservices';
 import {
   CollectStatisticCommand,
 } from '@modules/statistic/application/use-cases/collect-statistic/collect-statistic.command';
@@ -17,14 +12,15 @@ import { SuccessResDto } from '@src/infrastructure/dtos/common/success-res.dto';
 import { IIpData } from '@src/infrastructure/interfaces/statistic/ip-data.interface';
 
 @Resolver()
-@UseInterceptors(LoggerInterceptor)
+// @UseInterceptors(LoggerInterceptor)
 export class StatisticResolver {
 
   constructor(
     // private readonly _queryBus: QueryBus,
     private readonly _commandBus: CommandBus,
     // eslint-disable-next-line no-empty-function
-  ) {}
+  ) {
+  }
 
   @Mutation(() => SuccessResDto, {
     name: 'collectStatistic',

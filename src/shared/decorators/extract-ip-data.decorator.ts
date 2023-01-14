@@ -7,14 +7,14 @@ export const ExtractIpData = createParamDecorator(
     let request: any = null;
     if (ctx.getType<ContextType | 'graphql'>() === 'graphql') {
       const context = GqlExecutionContext.create(ctx).getContext();
-      request = context.ctx;
+      request = context?.req;
     }
     else {
       request = ctx.switchToHttp().getRequest();
     }
 
     const ip = request?.ip === '127.0.0.1' ? '188.130.155.158' : request?.ip;
-    const agent = request.headers['user-agent'];
+    const agent = request?.headers['user-agent'];
 
     const geo = {
       ip,
