@@ -28,10 +28,11 @@ jobs:
 
       - name: 'Create env file'
         run: |
-          echo {{ secrets.APP_ENV }} >> ${{ github.workspace }}/.env
+          echo {{ secrets.APP_ENV }} >> .env
+
       - name: 'Create .npmrc file'
         run: |
-          echo {{ secrets.NPMRC }} >> ${{ github.workspace }}/.npmrc
+          echo {{ secrets.NPMRC }} >> .npmrc
 
       - name: Build and push
         uses: docker/build-push-action@v3
