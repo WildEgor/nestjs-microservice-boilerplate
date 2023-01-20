@@ -32,6 +32,7 @@ jobs:
           echo {{ secrets.APP_ENV }} >> .env
           cat .env
           readlink -f .env
+          readlink -f package.json
 
       - name: 'Create .npmrc file'
         run: |
