@@ -3,7 +3,7 @@
 ## CICD
 Add content of your .env to APP_ENV github secret - for docker build.
 Add personal github token to NPM_TOKEN github secret - access to custom libs.
-For docker add DOCKERHUB_USERNAME and DOCKERHUB_TOKEN to secrets too.
+For docker add DOCKERHUB_USERNAME, DOCKERHUB_TOKEN, DOCKER_REGISTRY, IMAGE_NAME and IMAGE_TAG.
 
 ## Installation
 
