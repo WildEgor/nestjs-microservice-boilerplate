@@ -50,5 +50,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: wildegor/nestjs-microservice-boilerplate
+          tags: ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}
           file: ./Dockerfile
