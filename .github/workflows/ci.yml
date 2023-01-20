@@ -26,23 +26,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: 'Create env file'
+      - name: Build and push
+        uses: docker/build-push-action@v3
         run: |
           touch .env
           echo {{ secrets.APP_ENV }} >> .env
-          cat .env
-          readlink -f .env
-          readlink -f package.json
-
-      - name: 'Create .npmrc file'
-        run: |
           touch .npmrc
           echo {{ secrets.NPMRC }} >> .npmrc
-          cat .npmrc
-          readlink -f .npmrc
-
-      - name: Build and push
-        uses: docker/build-push-action@v3
         with:
           push: true
           tags: wildegor/nestjs-microservice-boilerplate
