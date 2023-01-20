@@ -26,12 +26,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: 'Create env file'
+      - name: 'Create .env and .npmrc file'
         run: |
           echo {{ secrets.APP_ENV }} >> .env
-
-      - name: 'Create .npmrc file'
-        run: |
           echo {{ secrets.NPMRC }} >> .npmrc
 
       - name: Build and push
