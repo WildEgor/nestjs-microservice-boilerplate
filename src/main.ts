@@ -95,7 +95,6 @@ const bootstrap = async function bootstrap(): Promise<void> {
     process.exit();
   }
 };
-
 bootstrap().catch((e) => {
   throw e;
 });
