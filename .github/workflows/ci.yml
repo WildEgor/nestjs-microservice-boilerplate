@@ -10,6 +10,10 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          clean: 'false'
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
@@ -27,12 +31,14 @@ jobs:
           touch .env
           echo {{ secrets.APP_ENV }} >> .env
           cat .env
+          readlink -f .env
 
       - name: 'Create .npmrc file'
         run: |
           touch .npmrc
           echo {{ secrets.NPMRC }} >> .npmrc
           cat .npmrc
+          readlink -f .npmrc
 
       - name: Build and push
         uses: docker/build-push-action@v3
