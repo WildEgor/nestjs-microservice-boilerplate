@@ -27,8 +27,7 @@ ENV NODE_ENV production
 WORKDIR /srv/app
 COPY --from=build /srv/build/node_modules ./node_modules
 COPY --from=build /srv/build/dist ./dist
-# COPY --from=build /srv/build/graphql ./graphql
-# COPY --from=build /srv/build/.env.local ./.env.local
+COPY --from=build /srv/build/.env.local ./.env.local
 COPY --from=build /srv/build/.env ./.env
 EXPOSE ${APP_PORT}
 CMD ["node", "dist/main"]
