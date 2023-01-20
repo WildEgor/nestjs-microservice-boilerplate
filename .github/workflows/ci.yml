@@ -31,12 +31,10 @@ jobs:
           touch .env
           echo {{ secrets.APP_ENV }} >> .env
 
-      - name: 'Create .npmrc'
-        uses: ferluisxd/create-npmrc@3
+      - name: 'Use .npmrc'
+        uses: bduff9/use-npmrc@v1.2
         with:
-          org_name: wildegor
-          env:
-            AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          dot-npmrc: ${{ secrets.NPMRC }}
 
       - name: Build and push
         uses: docker/build-push-action@v3
