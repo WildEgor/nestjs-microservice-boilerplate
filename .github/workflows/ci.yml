@@ -28,6 +28,12 @@ jobs:
           echo {{ secrets.APP_ENV }} >> .env
           cat .env
 
+      - name: 'Create .npmrc file'
+        run: |
+          touch .npmrc
+          echo {{ secrets.NPMRC }} >> .npmrc
+          cat .npmrc
+
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
