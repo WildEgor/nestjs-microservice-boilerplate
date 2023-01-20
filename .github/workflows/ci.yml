@@ -9,8 +9,12 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: write
+      issues: read
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           clean: 'false'
 
@@ -26,10 +30,20 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: 'Create .env and .npmrc file'
+      - name: 'Create .env file'
         run: |
           echo {{ secrets.APP_ENV }} >> .env
-          echo {{ secrets.NPMRC }} >> .npmrc
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      - name: 'Create .npmrc'
+        run: |
+          yarn ci:token
+        env:
+          NODE_ENV_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
         uses: docker/build-push-action@v3
