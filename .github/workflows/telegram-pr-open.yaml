@@ -2,7 +2,7 @@ name: Pull Request Opened Telegram Notification
 
 on:
   pull_request:
-    types: [ opened ]
+    types: [ opened, assigned ]
 
 jobs:
   pr_opened_notify:
@@ -12,12 +12,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Parse assignees
-        id: parse_assignees
+      - name: Parse assignee
+        id: assignee
         run: |
-          assignees=$(jq -r '.assignees[].login' ${{ github.event_path }})
-          assignees=$(echo "assignees" | tr '\n' ',' | sed 's/,$//')
-          echo "::set-output name=assignees::$assignees"
+          assignee=$(jq -r '.assignee[].login' ${{ github.event_path }})
+          assignee=$(echo "assignee" | tr '\n' ',' | sed 's/,$//')
+          echo "::set-output name=assignee::assignee"
 
       - uses: WildEgor/tg-notification-action@v1.0.1
         with:
@@ -29,5 +29,5 @@ jobs:
             Repository: ${{ github.repository }}
             Branch: ${{ github.event.pull_request.base.ref }}
             See: [Link](${{ github.event.pull_request.html_url }})
-          MENTIONS: ${{ steps.parse_assignees.outputs.assignees }}
+          MENTIONS: ${{ steps.assignee.outputs.assignee }}
           GITHUB2PROVIDER_MAP: ${{ secrets.TELEGRAM_USERS_MAP }}
