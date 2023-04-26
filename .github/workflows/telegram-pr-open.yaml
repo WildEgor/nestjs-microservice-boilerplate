@@ -12,11 +12,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Get assignees # for testing, use github.event.pull_request.requested_reviewers
-        id: reviewers
+      - name: Parse assignees
+        id: parse_assignees
         run: |
-          reviewers=$(echo "${{ toJson(github.event.pull_request.assignees) }}" | jq -r '.[].login' | paste -sd "," -)
-          echo "::set-output name=reviewers::${reviewers}"
+          assignees=$(jq -r '.assignees[].login' ${{ github.event_path }})
+          assignees=$(echo "assignees" | tr '\n' ',' | sed 's/,$//')
+          echo "::set-output name=assignees::$assignees"
 
       - uses: WildEgor/tg-notification-action@v1.0.1
         with:
@@ -28,5 +29,5 @@ jobs:
             Repository: ${{ github.repository }}
             Branch: ${{ github.event.pull_request.base.ref }}
             See: [Link](${{ github.event.pull_request.html_url }})
-          MENTIONS: ${{ steps.reviewers.outputs.reviewers }}
+          MENTIONS: ${{ steps.parse_assignees.outputs.assignees }}
           GITHUB2PROVIDER_MAP: ${{ secrets.TELEGRAM_USERS_MAP }}
