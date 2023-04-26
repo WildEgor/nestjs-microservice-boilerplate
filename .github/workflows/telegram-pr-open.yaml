@@ -12,14 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Parse assignees
-        id: assignees
-        run: |
-          assignees=$(echo "${{ github.event.pull_request.assignees }}" | jq -r '.[] | .login')
-          assignees_csv=$(echo $assignees | tr '\n' ',' | sed 's/,$//')
-          echo "Assigned users: $assignees_csv"
-
-      - uses: WildEgor/tg-notification-action@v1.0.1
+      - uses: WildEgor/tg-notification-action@v1.1.0
         with:
           TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           CHAT_ID: ${{ secrets.TELEGRAM_TO }}
@@ -29,5 +22,5 @@ jobs:
             Repository: ${{ github.repository }}
             Branch: ${{ github.event.pull_request.base.ref }}
             See: [Link](${{ github.event.pull_request.html_url }})
-          MENTIONS: ${{ steps.assignees.outputs.assignees_csv }}
+          MENTIONS: ${{ toJson(github.event.pull_request.assignees) }}
           GITHUB2PROVIDER_MAP: ${{ secrets.TELEGRAM_USERS_MAP }}
