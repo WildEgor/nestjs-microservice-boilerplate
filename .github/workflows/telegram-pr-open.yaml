@@ -1,0 +1,32 @@
+name: Pull Request Opened Telegram Notification
+
+on:
+  pull_request:
+    types: [ opened ]
+
+jobs:
+  pr_opened_notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get reviewers
+        id: reviewers
+        run: |
+          reviewers=$(echo "${{ toJson(github.event.pull_request.requested_reviewers) }}" | jq -r '.[].login' | paste -sd "," -)
+          echo "::set-output name=reviewers::${reviewers}"
+
+      - uses: WildEgor/tg-notification-action@v1.0.1
+        with:
+          TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_TO }}
+          MESSAGE: |
+            Action: 📍 ${{ github.event.pull_request.user.login }} create a PR
+            Title: ${{ github.event.pull_request.title }}
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.event.pull_request.base.ref }}
+            See: [Link](${{ github.event.pull_request.html_url }})
+          MENTIONS: ${{ steps.reviewers.outputs.reviewers }}
+          GITHUB2PROVIDER_MAP: ${{ secrets.TELEGRAM_USERS_MAP }}
