@@ -12,10 +12,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Get reviewers
+      - name: Get assignees # for testing, use github.event.pull_request.requested_reviewers
         id: reviewers
         run: |
-          reviewers=$(echo "${{ toJson(github.event.pull_request.requested_reviewers) }}" | jq -r '.[].login' | paste -sd "," -)
+          reviewers=$(echo "${{ toJson(github.event.pull_request.assignees) }}" | jq -r '.[].login' | paste -sd "," -)
           echo "::set-output name=reviewers::${reviewers}"
 
       - uses: WildEgor/tg-notification-action@v1.0.1
